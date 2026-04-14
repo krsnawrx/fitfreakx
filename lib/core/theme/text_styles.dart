@@ -3,6 +3,8 @@ import 'package:google_fonts/google_fonts.dart';
 import 'colors.dart';
 
 class AppTextStyles {
+  AppTextStyles._();
+
   static TextStyle get h1 => GoogleFonts.poppins(
         fontSize: 32,
         fontWeight: FontWeight.bold,
@@ -35,10 +37,16 @@ class AppTextStyles {
         fontSize: 12,
         color: AppColors.textSecondary,
       );
-      
+
   static TextStyle get accentNumber => GoogleFonts.poppins(
         fontSize: 28,
         fontWeight: FontWeight.w800,
         color: AppColors.accent,
+      );
+
+  static TextStyle get button => GoogleFonts.poppins(
+        fontSize: 16,
+        fontWeight: FontWeight.w600,
+        color: Colors.white,
       );
 }

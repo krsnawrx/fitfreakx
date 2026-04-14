@@ -1,0 +1,17 @@
+const List<String> kMotivationalQuotes = [
+  "The pain you feel today will be the strength you feel tomorrow.",
+  "Your body can stand almost anything. It's your mind you have to convince.",
+  "Strive for progress, not perfection.",
+  "The only bad workout is the one that didn't happen.",
+  "Don't limit your challenges. Challenge your limits.",
+  "Discipline is choosing between what you want now and what you want most.",
+  "Success isn't always about greatness. It's about consistency.",
+  "What seems impossible today will one day become your warm-up.",
+  "You don't have to be extreme, just consistent.",
+  "Fall in love with taking care of yourself.",
+  "The body achieves what the mind believes.",
+  "Push yourself because no one else is going to do it for you.",
+  "Great things never come from comfort zones.",
+  "Sore today, strong tomorrow.",
+  "It never gets easier, you just get stronger.",
+];

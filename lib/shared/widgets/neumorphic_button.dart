@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
 import '../../core/theme/colors.dart';
 
+/// A neumorphic button that animates flat on press.
+/// Set [isAccent] to fill with the orange brand colour.
 class NeumorphicButton extends StatefulWidget {
   final Widget child;
-  final VoidCallback onTap;
+  final VoidCallback? onTap;
   final EdgeInsetsGeometry? padding;
-  final BorderRadiusGeometry? borderRadius;
+  final BorderRadius? borderRadius;
   final bool isAccent;
+  final double? width;
 
   const NeumorphicButton({
     super.key,
@@ -15,6 +18,7 @@ class NeumorphicButton extends StatefulWidget {
     this.padding,
     this.borderRadius,
     this.isAccent = false,
+    this.width,
   });
 
   @override
@@ -22,53 +26,48 @@ class NeumorphicButton extends StatefulWidget {
 }
 
 class _NeumorphicButtonState extends State<NeumorphicButton> {
-  bool _isPressed = false;
-
-  void _handleTapDown(TapDownDetails details) {
-    setState(() => _isPressed = true);
-  }
-
-  void _handleTapUp(TapUpDetails details) {
-    setState(() => _isPressed = false);
-    widget.onTap();
-  }
-
-  void _handleTapCancel() {
-    setState(() => _isPressed = false);
-  }
+  bool _pressed = false;
 
   @override
   Widget build(BuildContext context) {
     final bgColor = widget.isAccent ? AppColors.accent : AppColors.background;
-    
-    final shadows = widget.isAccent 
-      ? [
-          BoxShadow(
-            color: AppColors.accent.withOpacity(0.5),
-            offset: const Offset(4.0, 4.0),
-            blurRadius: 10.0,
-            spreadRadius: 1.0,
-          ),
-          BoxShadow(
-            color: Colors.white.withOpacity(0.3),
-            offset: const Offset(-4.0, -4.0),
-            blurRadius: 10.0,
-            spreadRadius: 1.0,
-          ),
-        ]
-      : AppColors.neumorphicShadowOuter;
+    final radius = widget.borderRadius ?? BorderRadius.circular(12);
+
+    final shadows = widget.isAccent
+        ? [
+            BoxShadow(
+              color: AppColors.accent.withAlpha(128),
+              offset: const Offset(5, 5),
+              blurRadius: 15,
+              spreadRadius: 1,
+            ),
+            BoxShadow(
+              color: Colors.white.withAlpha(77),
+              offset: const Offset(-5, -5),
+              blurRadius: 15,
+              spreadRadius: 1,
+            ),
+          ]
+        : AppColors.extrudedShadow;
 
     return GestureDetector(
-      onTapDown: _handleTapDown,
-      onTapUp: _handleTapUp,
-      onTapCancel: _handleTapCancel,
+      onTapDown: (_) => setState(() => _pressed = true),
+      onTapUp: (_) {
+        setState(() => _pressed = false);
+        widget.onTap?.call();
+      },
+      onTapCancel: () => setState(() => _pressed = false),
       child: AnimatedContainer(
         duration: const Duration(milliseconds: 150),
-        padding: widget.padding ?? const EdgeInsets.symmetric(horizontal: 24.0, vertical: 16.0),
+        width: widget.width,
+        padding: widget.padding ??
+            const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
         decoration: BoxDecoration(
-          color: bgColor,
-          borderRadius: widget.borderRadius ?? BorderRadius.circular(12),
-          boxShadow: _isPressed ? [] : shadows,
+          color: _pressed
+              ? (widget.isAccent ? AppColors.accentPressed : AppColors.background)
+              : bgColor,
+          borderRadius: radius,
+          boxShadow: _pressed ? [] : shadows,
         ),
         child: Center(child: widget.child),
       ),

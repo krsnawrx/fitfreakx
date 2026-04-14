@@ -2,12 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:percent_indicator/percent_indicator.dart';
 import '../../core/theme/colors.dart';
 
+/// A calorie progress ring seated inside a neumorphic circular surface.
 class NeumorphicProgressRing extends StatelessWidget {
-  final double percent; // 0.0 to 1.0
+  final double percent;
   final double radius;
   final Widget center;
   final Color progressColor;
-  
+
   const NeumorphicProgressRing({
     super.key,
     required this.percent,
@@ -18,20 +19,24 @@ class NeumorphicProgressRing extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final clampedPercent = percent.clamp(0.0, 1.0);
+
     return Container(
+      padding: const EdgeInsets.all(12),
       decoration: const BoxDecoration(
         shape: BoxShape.circle,
         color: AppColors.background,
-        boxShadow: AppColors.neumorphicShadowOuter,
+        boxShadow: AppColors.extrudedShadow,
       ),
       child: CircularPercentIndicator(
         radius: radius,
-        lineWidth: 15.0,
+        lineWidth: 14,
         animation: true,
-        percent: percent > 1.0 ? 1.0 : (percent < 0.0 ? 0.0 : percent),
+        animationDuration: 800,
+        percent: clampedPercent,
         center: center,
         circularStrokeCap: CircularStrokeCap.round,
-        backgroundColor: AppColors.background, // Invisible track basically due to neumorphic base
+        backgroundColor: const Color(0xFFE0E0E3),
         progressColor: progressColor,
         animateFromLastPercent: true,
       ),
